@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:chess_engine/data/repos/game_repository_impl.dart';
+import 'package:chess_engine/domain/repos/game_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +16,7 @@ void main() {
     late MockHttpClient client;
     late ChessApi api;
     late FetchGamesUseCase useCase;
+    late GameRepository repo;
 
     setUpAll(() {
       registerFallbackValue(Uri());
@@ -22,7 +25,8 @@ void main() {
     setUp(() {
       client = MockHttpClient();
       api = ChessApi(client: client);
-      useCase = FetchGamesUseCase(api);
+      repo = GameRepositoryImpl(api);
+      useCase = FetchGamesUseCase(repo);
     });
 
     test('parses and sorts games by end_time desc', () async {

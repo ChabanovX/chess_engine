@@ -1,34 +1,22 @@
-import '../../data/sources/chess_api.dart';
-import '../../data/models/game_dto.dart';
+import 'package:chess_engine/domain/repos/game_repository.dart';
+
 import '../entities/pgn_game.dart';
 
 class FetchGamesUseCase {
-  final ChessApi api;
+  final GameRepository repo;
 
-  FetchGamesUseCase(this.api);
+  FetchGamesUseCase(this.repo);
 
   Future<List<PgnGame>> call({
     required String username,
     required int year,
     required int month,
   }) async {
-    final dtos = await api.fetchMonthlyArchive(
+    final games = await repo.fetchGames(
       username: username,
       year: year,
       month: month,
     );
-
-    final games =
-        dtos
-            .map(
-              (dto) => PgnGame(
-                pgn: dto.pgn,
-                endTime: DateTime.fromMillisecondsSinceEpoch(
-                  dto.endTime * 1000,
-                ),
-              ),
-            )
-            .toList();
     games.sort((a, b) => b.endTime.compareTo(a.endTime));
     return games;
   }
