@@ -24,9 +24,11 @@ lib/
 ├─ data/                # API & engine glue
 │   ├─ sources/         # chess.com REST client, stockfish isolate
 │   └─ models/          # DTOs (Game, MoveEval, PlayerStats)
+    └─ repos/           # Repositories implementation  
 ├─ domain/              # Pure Dart business rules
 │   ├─ usecases/        # FetchGames, AnalyseGame
 │   └─ entities/        # Value objects (Fen, PgnGame, Accuracy)
+    └─ repos/           # Abstract repositories that are used in Usecases
 ├─ presentation/        # UI widgets & Cubit states
 │   ├─ cubit/           # HomeCubit, AnalysisCubit
 │   └─ screens/         # HomePage, GameReportPage

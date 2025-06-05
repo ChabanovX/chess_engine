@@ -15,6 +15,10 @@ void main() {
     late ChessApi api;
     late FetchGamesUseCase useCase;
 
+    setUpAll(() {
+      registerFallbackValue(Uri());
+    });
+
     setUp(() {
       client = MockHttpClient();
       api = ChessApi(client: client);
@@ -24,12 +28,11 @@ void main() {
     test('parses and sorts games by end_time desc', () async {
       final fixture =
           File('test/fixtures/hikaru_2025_05.json').readAsStringSync();
-      when(() => client.get(any())).thenAnswer(
-        (_) async => http.Response(fixture, 200),
-      );
+      when(
+        () => client.get(any()),
+      ).thenAnswer((_) async => http.Response(fixture, 200));
 
-      final games =
-          await useCase(username: 'hikaru', year: 2025, month: 5);
+      final games = await useCase(username: 'hikaru', year: 2025, month: 5);
 
       expect(games, hasLength(2));
       expect(games.first.endTime.isAfter(games.last.endTime), isTrue);
