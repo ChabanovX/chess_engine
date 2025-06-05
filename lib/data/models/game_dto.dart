@@ -10,4 +10,9 @@ class GameDto {
       endTime: json['end_time'] as int,
     );
   }
+
+  @override
+  String toString() {
+    return "Game: pgn - $pgn; endTime - $endTime";
+  }
 }
